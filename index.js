@@ -1,37 +1,57 @@
 var es = require('event-stream');
 var spawn = require('child_process').spawn;
 
-var cucumber = function (options) {
-	var WinPath = '.\\node_modules\\.bin\\cucumber-js.cmd';
-	var UnixPath = './node_modules/cucumber/bin/cucumber.js';
+var WinPath = '.\\node_modules\\.bin\\cucumber-js.cmd';
+var UnixPath = './node_modules/cucumber/bin/cucumber.js';
 
-	var runOptions = [];
+var cucumber = function(options) {
+    var runOptions = [];
 
-	if (options.steps) {
-		runOptions.push('-r');
-		runOptions.push(options.steps);
-	}
-
-	if (process.platform === 'win32') {
-      binPath = WinPath;
-    } else {
-      binPath = UnixPath;
+    if (options.steps) {
+        runOptions.push('-r');
+        runOptions.push(options.steps);
     }
 
-	var run = function (argument, callback) {
-    	var cli = spawn(binPath, runOptions);
+    if (process.platform === 'win32') {
+        binPath = WinPath;
+    } else {
+        binPath = UnixPath;
+    }
 
-    	var printData = function (data) {
-			var data = new Buffer(data);
-			console.log(data.toString());
-    	}
+    var run = function(argument, callback) {
 
-    	cli.stdout.on('data', printData);
-    	cli.stderr.on('data', printData);
-    	cli.on('exit', printData);
-	};
+    	//var b = new Buffer(argument);
+    	//console.log(b.toString());
 
-	return es.map(run);
+    	console.log(argument);
+
+        var cli = spawn(binPath, runOptions);
+
+        var output = [];
+
+        cli.stdout.on('data', function(data) {
+            output.push(data);
+        });
+
+        cli.stderr.on('data', function(data) {
+            //console.log(data);
+        });
+
+        cli.on('exit', function(exitCode) {
+
+            var data = Buffer.concat(output).toString();
+
+            var startIndex = data.substring(0, data.indexOf('"keyword": "Feature"')).lastIndexOf('[');
+            //var logOutput = data.substring(0, startIndex - 1);
+            var featureOutput = data.substring(startIndex);
+
+            console.log(featureOutput);
+        });
+
+
+    };
+
+    return es.map(run);
 };
 
 module.exports = cucumber;
