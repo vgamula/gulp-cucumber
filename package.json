@@ -13,8 +13,6 @@
   },
   "dependencies": {
     "cucumber": "^0.4.4",
-    "event-stream": "^3.1.7",
-    "gulp-util": "^3.0.1",
-    "through2": "^0.6.3"
+    "event-stream": "^3.1.7"
   }
 }

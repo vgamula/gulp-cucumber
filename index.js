@@ -5,6 +5,7 @@ var WinPath = '.\\node_modules\\.bin\\cucumber-js.cmd';
 var UnixPath = './node_modules/cucumber/bin/cucumber.js';
 
 var cucumber = function(options) {
+
     var runOptions = [];
 
     if (options.steps) {
@@ -19,13 +20,16 @@ var cucumber = function(options) {
     }
 
     var run = function(argument, callback) {
+        var filename = argument.path;
+        if (filename.indexOf(".feature") === -1) {
+            return callback();
+        }
 
-    	//var b = new Buffer(argument);
-    	//console.log(b.toString());
+        var processOptions = runOptions.slice(0);
 
-    	console.log(argument);
+        processOptions.push(filename);
 
-        var cli = spawn(binPath, runOptions);
+        var cli = spawn(binPath, processOptions);
 
         var output = [];
 
@@ -33,24 +37,15 @@ var cucumber = function(options) {
             output.push(data);
         });
 
-        cli.stderr.on('data', function(data) {
-            //console.log(data);
-        });
-
         cli.on('exit', function(exitCode) {
-
             var data = Buffer.concat(output).toString();
-
             var startIndex = data.substring(0, data.indexOf('"keyword": "Feature"')).lastIndexOf('[');
-            //var logOutput = data.substring(0, startIndex - 1);
             var featureOutput = data.substring(startIndex);
-
-            console.log(featureOutput);
+            process.stdout.write(featureOutput.trim());
+            process.stdout.write('\r\nFeature: ' + filename);
         });
-
-
+        return callback();
     };
-
     return es.map(run);
 };
 
