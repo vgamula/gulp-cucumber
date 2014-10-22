@@ -11,6 +11,8 @@ npm install gulp-cucumber
 Using:
 ==
 ```js
+var cucumber = require('gulp-cucumber');
+
 gulp.task('cucumber', function() {
     gulp.src('features/*').pipe(cucumber({
         'steps': 'features/steps/steps.js'
