@@ -1,13 +1,26 @@
 {
   "name": "gulp-cucumber",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Gulp task for cucumberjs features running",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vgamula/gulp-cucumber"
+  },
   "main": "index.js",
+  "keywords": [
+    "gulpplugin",
+    "cucumberjs"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "MIT",
+  "author": "Volodymyr Gamula <v.gamula@gmail.com>",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/vgamula/gulp-cucumber/raw/master/LICENSE"
+    }
+  ],
   "devDependencies": {
     "gulp": "^3.8.8"
   },
