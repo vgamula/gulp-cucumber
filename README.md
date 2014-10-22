@@ -2,14 +2,10 @@ gulp-cucumber
 ==
 Gulp task for running [cucumber.js](https://github.com/cucumber/cucumber-js) features
 
-Attention!
-==
-Package temporary is not available in npm!
-
 Installation
 ==
 ```sh
-npm install --save gulp-cucumber
+npm install gulp-cucumber
 ```
 
 Using:
