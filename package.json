@@ -1,6 +1,6 @@
 {
   "name": "gulp-cucumber",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Gulp task for cucumberjs features running",
   "repository": {
     "type": "git",
