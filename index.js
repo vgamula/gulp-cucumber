@@ -15,7 +15,7 @@ var cucumber = function(options) {
 
     // load support files and step_definitions from config
     glob([].concat(options.support || ''))
-        .concat(glob([].concat(options.steps || ''))
+        .concat(glob([].concat(options.steps || '')))
         .forEach(function (file) {
             runOptions.push('-r');
             runOptions.push(file);
