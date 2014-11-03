@@ -20,7 +20,7 @@ gulp.task('cucumber', function() {
 });
 ```
 
-**Be aware that `config.steps` and `config.support` both accept a glob pattern**
+**Be aware that `options.steps` and `options.support` both accept a glob pattern**
 **or array of glob patterns (grunt-style matching) if necessary.**
 ```js
 gulp.task('cucumber', function() {

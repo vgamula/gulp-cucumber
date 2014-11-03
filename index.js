@@ -13,13 +13,13 @@ binPath = fs.existsSync(binPath) ? binPath : __dirname + binPath;
 var cucumber = function(options) {
     var runOptions = [];
 
-    // load support files and step_definitions from config
+    // load support files and step_definitions from options
     var files = [];
-    if (config.support) {
+    if (options.support) {
         files.concat(glob([].concat(options.support)));
     }
 
-    if (config.steps) {
+    if (options.steps) {
         files.concat(glob([].concat(options.steps)));
     }
 
