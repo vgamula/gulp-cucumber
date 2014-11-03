@@ -12,14 +12,6 @@ if (process.platform === 'win32') {
     binPath = localCuc ? '/node_modules/cucumber/bin/cucumber.js' : __dirname + '/node_modules/cucumber/bin/cucumber.js';
 }
 
-var _once = function (fn, ctx) {
-    var count = 0;
-    return function () {
-        if (!count && count++) return fn.apply(ctx, Array.prototype.slice.call(arguments));
-    };
-};
-
-
 var cucumber = function(options) {
 
     var runOptions = [];
@@ -30,8 +22,6 @@ var cucumber = function(options) {
             runOptions.push(file);
         });
     }
-
-    var writeOnce = _once(process.stdout.write, process.stdout);
 
     var run = function(argument, callback) {
         var filename = argument.path;
@@ -56,8 +46,7 @@ var cucumber = function(options) {
             var startIndex = data.substring(0, data.indexOf('"keyword": "Feature"')).lastIndexOf('[');
             var featureOutput = data.substring(startIndex);
             process.stdout.write(featureOutput.trim());
-            writeOnce('\r\n');
-            process.stdout.write('Feature: ' + filename + '\r\n');
+            process.stdout.write('\r\nFeature: ' + filename + '\r\n');
         });
         return callback();
     };
