@@ -1,6 +1,6 @@
 var es = require('event-stream');
 var spawn = require('child_process').spawn;
-var glob = require('glob');
+var glob = require('simple-glob');
 var fs = require('fs');
 
 var localCuc, binPath;
@@ -15,9 +15,8 @@ if (process.platform === 'win32') {
 var cucumber = function(options) {
 
     var runOptions = [];
-
     if (options.steps) {
-        glob.sync(options.steps).forEach(function (file) {
+        glob([].concat(options.steps)).forEach(function (file) {
             runOptions.push('-r');
             runOptions.push(file);
         });
@@ -50,6 +49,7 @@ var cucumber = function(options) {
         });
         return callback();
     };
+
     return es.map(run);
 };
 
