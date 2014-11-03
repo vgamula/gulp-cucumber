@@ -1,8 +1,8 @@
 var es = require('event-stream');
 var spawn = require('child_process').spawn;
 
-var WinPath = __dirname + '\\node_modules\\.bin\\cucumber-js.cmd';
-var UnixPath = __dirname + '/node_modules/cucumber/bin/cucumber.js';
+var WinPath = process.cwd() + '\\node_modules\\.bin\\cucumber-js.cmd';
+var UnixPath = process.cwd() + '/node_modules/cucumber/bin/cucumber.js';
 
 var cucumber = function(options) {
 
