@@ -20,11 +20,12 @@ gulp.task('cucumber', function() {
 });
 ```
 
-##### Be aware that `config.steps` accepts a glob or array of globs as well
+**Be aware that `config.steps` and `config.support` both accept a glob pattern**
+**or array of glob patterns (grunt-style matching) if necessary.**
 ```js
 gulp.task('cucumber', function() {
     gulp.src('*features/*').pipe(cucumber({
-        'steps': ['*features/steps/*.js', '!www/src/screens/timesheet/features/steps/*.js'],
+        'steps': '*features/steps/*.js',
         'support': '*features/support/*.js'
     }));
 });

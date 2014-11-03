@@ -14,10 +14,12 @@ var cucumber = function(options) {
     var runOptions = [];
 
     // load support files and step_definitions from config
-    glob([].concat(options.support || '', options.steps || '')).forEach(function (file) {
-        runOptions.push('-r');
-        runOptions.push(file);
-    });
+    glob([].concat(options.support || ''))
+        .concat(glob([].concat(options.steps || ''))
+        .forEach(function (file) {
+            runOptions.push('-r');
+            runOptions.push(file);
+        });
 
     var run = function(argument, callback) {
         var filename = argument.path;
