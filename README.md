@@ -19,6 +19,17 @@ gulp.task('cucumber', function() {
     }));
 });
 ```
+
+##### Be aware that `config.steps` accepts a glob or array of globs as well
+```js
+gulp.task('cucumber', function() {
+    gulp.src('*features/*').pipe(cucumber({
+        'steps': ['*features/steps/*.js', '!www/src/screens/timesheet/features/steps/*.js'],
+        'support': '*features/support/*.js'
+    }));
+});
+```
+
 License
 ==
 The MIT License (MIT)

@@ -10,16 +10,14 @@ var binPath = (process.platform === 'win32') ?
 
 binPath = fs.existsSync(binPath) ? binPath : __dirname + binPath;
 
-
 var cucumber = function(options) {
     var runOptions = [];
 
-    if (options.steps) {
-        glob([].concat(options.steps)).forEach(function (file) {
-            runOptions.push('-r');
-            runOptions.push(file);
-        });
-    }
+    // load support files and step_definitions from config
+    glob([].concat(options.support || '', options.steps || '')).forEach(function (file) {
+        runOptions.push('-r');
+        runOptions.push(file);
+    });
 
     var run = function(argument, callback) {
         var filename = argument.path;
