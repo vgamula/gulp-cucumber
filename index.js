@@ -3,18 +3,18 @@ var spawn = require('child_process').spawn;
 var glob = require('simple-glob');
 var fs = require('fs');
 
-var localCuc, binPath;
+var binPath;
 if (process.platform === 'win32') {
-    localCuc = fs.existsSync('\\node_modules\\.bin\\cucumber-js.cmd');
-    binPath = localCuc ? '\\node_modules\\.bin\\cucumber-js.cmd' : __dirname + '\\node_modules\\.bin\\cucumber-js.cmd';
+    var winPath = '\\node_modules\\.bin\\cucumber-js.cmd';
+    binPath = fs.existsSync(winPath) ? winPath : __dirname + winPath;
 } else {
-    localCuc = fs.existsSync('/node_modules/cucumber/bin/cucumber.js');
-    binPath = localCuc ? '/node_modules/cucumber/bin/cucumber.js' : __dirname + '/node_modules/cucumber/bin/cucumber.js';
+    var unixPath = '/node_modules/cucumber/bin/cucumber.js';
+    binPath = fs.existsSync(unixPath) ? unixPath : __dirname + unixPath;
 }
 
 var cucumber = function(options) {
-
     var runOptions = [];
+    
     if (options.steps) {
         glob([].concat(options.steps)).forEach(function (file) {
             runOptions.push('-r');
