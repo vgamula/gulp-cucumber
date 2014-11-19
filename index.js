@@ -1,23 +1,32 @@
 var es = require('event-stream');
 var spawn = require('child_process').spawn;
+var glob = require('simple-glob');
+var fs = require('fs');
 
-var WinPath = __dirname + '\\node_modules\\.bin\\cucumber-js.cmd';
-var UnixPath = __dirname + '/node_modules/cucumber/bin/cucumber.js';
+
+var binPath = (process.platform === 'win32') ? 
+    '\\node_modules\\.bin\\cucumber-js.cmd':
+    '/node_modules/cucumber/bin/cucumber.js';
+
+binPath = fs.existsSync(binPath) ? binPath : __dirname + binPath;
 
 var cucumber = function(options) {
-
     var runOptions = [];
 
-    if (options.steps) {
-        runOptions.push('-r');
-        runOptions.push(options.steps);
+    // load support files and step_definitions from options
+    var files = [];
+    if (options.support) {
+        files.concat(glob([].concat(options.support)));
     }
 
-    if (process.platform === 'win32') {
-        binPath = WinPath;
-    } else {
-        binPath = UnixPath;
+    if (options.steps) {
+        files.concat(glob([].concat(options.steps)));
     }
+
+    files.forEach(function (file) {
+        runOptions.push('-r');
+        runOptions.push(file);
+    });
 
     var run = function(argument, callback) {
         var filename = argument.path;
@@ -26,7 +35,6 @@ var cucumber = function(options) {
         }
 
         var processOptions = runOptions.slice(0);
-
         processOptions.push(filename);
 
         var cli = spawn(binPath, processOptions);
@@ -42,10 +50,11 @@ var cucumber = function(options) {
             var startIndex = data.substring(0, data.indexOf('"keyword": "Feature"')).lastIndexOf('[');
             var featureOutput = data.substring(startIndex);
             process.stdout.write(featureOutput.trim());
-            process.stdout.write('\r\nFeature: ' + filename);
+            process.stdout.write('\r\nFeature: ' + filename + '\r\n');
         });
         return callback();
     };
+
     return es.map(run);
 };
 

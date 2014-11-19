@@ -19,6 +19,18 @@ gulp.task('cucumber', function() {
     }));
 });
 ```
+
+**Be aware that `options.steps` and `options.support` both accept a glob pattern**
+**or array of glob patterns (grunt-style matching) if necessary.**
+```js
+gulp.task('cucumber', function() {
+    gulp.src('*features/*').pipe(cucumber({
+        'steps': '*features/steps/*.js',
+        'support': '*features/support/*.js'
+    }));
+});
+```
+
 License
 ==
 The MIT License (MIT)
