@@ -14,7 +14,7 @@ Using:
 var cucumber = require('gulp-cucumber');
 
 gulp.task('cucumber', function() {
-    gulp.src('features/*').pipe(cucumber({
+    return gulp.src('features/*').pipe(cucumber({
         'steps': 'features/steps/steps.js'
     }));
 });
@@ -24,7 +24,7 @@ gulp.task('cucumber', function() {
 **or array of glob patterns (grunt-style matching) if necessary.**
 ```js
 gulp.task('cucumber', function() {
-    gulp.src('*features/*').pipe(cucumber({
+    return gulp.src('*features/*').pipe(cucumber({
         'steps': '*features/steps/*.js',
         'support': '*features/support/*.js'
     }));
