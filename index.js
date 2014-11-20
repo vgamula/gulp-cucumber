@@ -3,6 +3,8 @@ var spawn = require('child_process').spawn;
 var glob = require('simple-glob');
 var fs = require('fs');
 
+var cucumberCLI = require('cucumber').Cli;
+
 var binPath = (process.platform === 'win32') 
     ? '.\node_modules\.bin\cucumber-js.cmd'
     : './node_modules/cucumber/bin/cucumber.js';
