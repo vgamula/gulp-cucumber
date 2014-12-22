@@ -28,7 +28,8 @@ var cucumber = function(options) {
     });
 
     runOptions.push('-f');
-    runOptions.push('pretty');
+    var format = options.format || 'pretty';
+    runOptions.push(format);
 
 
     var run = function(argument, callback) {
