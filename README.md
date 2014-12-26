@@ -15,7 +15,8 @@ var cucumber = require('gulp-cucumber');
 
 gulp.task('cucumber', function() {
     return gulp.src('features/*').pipe(cucumber({
-        'steps': 'features/steps/steps.js'
+        'steps': 'features/steps/steps.js',
+        'format': 'summary'
     }));
 });
 ```
@@ -30,6 +31,8 @@ gulp.task('cucumber', function() {
     }));
 });
 ```
+
+`options.format` supports cucumber standard output formats : `summary`, `pretty` (default), `json`, `progress`
 
 License
 ==
