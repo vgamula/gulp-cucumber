@@ -3,7 +3,7 @@ var spawn = require('child_process').spawn;
 var glob = require('simple-glob');
 var fs = require('fs');
 
-var binPath = (process.platform === 'win32') ? '.\node_modules\.bin\cucumber-js.cmd' : './node_modules/cucumber/bin/cucumber.js';
+var binPath = (process.platform === 'win32') ? '.\\node_modules\\.bin\\cucumber-js.cmd' : './node_modules/cucumber/bin/cucumber.js';
 
 binPath = fs.existsSync(binPath) ? binPath : __dirname + ((process.platform === 'win32') ? '\\' : '/') + binPath;
 
