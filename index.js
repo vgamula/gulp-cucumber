@@ -44,6 +44,7 @@ var cucumber = function(options) {
         Cucumber.Cli(argv).run(function(succeeded) {
             if (succeeded) {
                 callback()
+                stream.emit('end')
             } else {
                 callback(new Error("Cucumber tests failed!"))
             }
