@@ -41,6 +41,7 @@ var cucumber = function(options) {
         var argv = ['node', 'cucumber-js'];
         argv.push.apply(argv, runOptions);
         argv.push.apply(argv, features);
+        var stream = this
         Cucumber.Cli(argv).run(function(succeeded) {
             if (succeeded) {
                 callback()
