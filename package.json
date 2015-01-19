@@ -1,7 +1,7 @@
 {
   "name": "gulp-cucumber",
-  "version": "0.0.6",
-  "description": "Gulp task for cucumberjs features running",
+  "version": "0.0.7",
+  "description": "Gulp task for running cucumber.js features",
   "repository": {
     "type": "git",
     "url": "https://github.com/vgamula/gulp-cucumber"
