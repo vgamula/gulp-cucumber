@@ -1,11 +1,7 @@
-var es = require('event-stream');
-var spawn = require('child_process').spawn;
+var through2 = require('through2');
 var glob = require('simple-glob');
 var fs = require('fs');
-
-var binPath = (process.platform === 'win32') ? '.\\node_modules\\.bin\\cucumber-js.cmd' : './node_modules/cucumber/bin/cucumber.js';
-
-binPath = fs.existsSync(binPath) ? binPath : __dirname + ((process.platform === 'win32') ? '\\' : '/') + binPath;
+var Cucumber = require('cucumber');
 
 var cucumber = function(options) {
     var runOptions = [];
@@ -13,11 +9,11 @@ var cucumber = function(options) {
     // load support files and step_definitions from options
     var files = [];
     if (options.support) {
-        files.concat(glob([].concat(options.support)));
+        files = files.concat(glob([].concat(options.support)));
     }
 
     if (options.steps) {
-        files.concat(glob([].concat(options.steps)));
+        files = files.concat(glob([].concat(options.steps)));
     }
 
     files.forEach(function(file) {
@@ -29,33 +25,34 @@ var cucumber = function(options) {
     var format = options.format || 'pretty';
     runOptions.push(format);
 
+    var features = [];
 
-    var run = function(argument, callback) {
-        var filename = argument.path;
+    var collect = function(file, enc, callback) {
+        var filename = file.path;
         if (filename.indexOf(".feature") === -1) {
             return callback();
         }
 
-        var processOptions = runOptions.slice(0);
-        processOptions.push(filename);
-        
-        var cli = spawn(binPath, processOptions);
-
-        var output = [];
-
-        cli.stdout.on('data', function(data) {
-            output.push(data);
-        });
-
-        cli.on('exit', function(exitCode) {
-            var data = Buffer.concat(output).toString();
-            process.stdout.write(data);
-            process.stdout.write('\r\nFeature: ' + filename + '\r\n');
-        });
-        return callback();
+        features.push(filename);
+        callback();
     };
 
-    return es.map(run);
+    var run = function(callback) {
+        var argv = ['node', 'cucumber-js'];
+        argv.push.apply(argv, runOptions);
+        argv.push.apply(argv, features);
+        var stream = this
+        Cucumber.Cli(argv).run(function(succeeded) {
+            if (succeeded) {
+                callback()
+                stream.emit('end')
+            } else {
+                callback(new Error("Cucumber tests failed!"))
+            }
+        })
+    };
+
+    return through2.obj(collect, run);
 };
 
 module.exports = cucumber;
