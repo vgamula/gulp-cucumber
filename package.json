@@ -22,6 +22,7 @@
     }
   ],
   "devDependencies": {
+    "chai": "^1.10.0",
     "gulp": "^3.8.8"
   },
   "dependencies": {
