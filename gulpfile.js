@@ -36,5 +36,5 @@ gulp.task('test', function(callback) {
         } catch (e) {
             callback(e);
         }
-    })
+    });
 });

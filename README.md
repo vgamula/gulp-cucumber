@@ -32,7 +32,13 @@ gulp.task('cucumber', function() {
 });
 ```
 
-`options.format` supports cucumber standard output formats : `summary`, `pretty` (default), `json`, `progress`
+`options.format` supports cucumbers standard output formats : `summary`, `pretty` (default), `json`, `progress`
+
+Running tests:
+==
+```sh
+$ npm test
+```
 
 License
 ==

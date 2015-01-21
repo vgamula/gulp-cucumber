@@ -36,7 +36,7 @@ var cucumber = function(options) {
 
     var run = function(callback) {
         var argv = ['node', 'cucumber-js'];
-        
+
         argv.push.apply(argv, runOptions);
         argv.push.apply(argv, features);
 
