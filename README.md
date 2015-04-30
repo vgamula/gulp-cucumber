@@ -34,6 +34,15 @@ gulp.task('cucumber', function() {
 
 `options.format` supports cucumbers standard output formats : `summary`, `pretty` (default), `json`, `progress`
 
+You can use `options.tags` to specify which range of scenarios for test suite, for example:
+
+```js
+'tags': '@auth,@profile,~@wip',
+```
+
+This will run all @auth and @profile tagged scenarios except those marked as @wip
+
+
 Running tests:
 ==
 ```sh

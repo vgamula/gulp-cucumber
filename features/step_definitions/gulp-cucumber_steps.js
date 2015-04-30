@@ -10,4 +10,15 @@ module.exports = function() {
         // Otherwise, how could the code get here?
         callback();
     });
+
+    this.When(/^the scenario is excluded from tests$/, function (callback) {
+        // Well, the features are being run here right now.
+        // Otherwise, how could the code get here?
+        callback();
+    });
+
+    this.Then(/^this error should be ignored$/, function (callback) {
+        // Trigger error and if tags option work it will never be called
+        callback.fail('It should never be called');
+    });
 };

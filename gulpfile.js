@@ -8,7 +8,8 @@ gulp.task('cucumber', function() {
     return gulp.src('features/*').pipe(cucumber({
         'steps': 'features/step_definitions/*_steps.js',
         'support': 'features/support/*.js',
-        'format': 'summary'
+        'format': 'summary',
+        'tags': '~@wip'
     })).once('end', function() {
         console.log('stream end!!');
     });
