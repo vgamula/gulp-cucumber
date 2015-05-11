@@ -23,6 +23,11 @@ var cucumber = function(options) {
     var format = options.format || 'pretty';
     runOptions.push(format);
 
+    if (options.tags) {
+        runOptions.push('--tags');
+        runOptions.push(options.tags);
+    }
+
     var features = [];
 
     var collect = function(file, enc, callback) {
