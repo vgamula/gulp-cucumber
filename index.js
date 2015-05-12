@@ -1,5 +1,6 @@
 var Cucumber = require('cucumber');
 var glob = require('simple-glob');
+var util = require('util');
 var through2 = require('through2');
 
 var cucumber = function(options) {
@@ -23,9 +24,14 @@ var cucumber = function(options) {
     var format = options.format || 'pretty';
     runOptions.push(format);
 
+    var tags;
     if (options.tags) {
-        runOptions.push('--tags');
-        runOptions.push(options.tags);
+        tags = util.isArray(options.tags) ? options.tags : [options.tags];
+
+        tags.forEach(function(t) {
+            runOptions.push('--tags');
+            runOptions.push(t);
+        });
     }
 
     var features = [];
