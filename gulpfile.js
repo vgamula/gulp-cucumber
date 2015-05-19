@@ -9,7 +9,7 @@ gulp.task('cucumber', function() {
         'steps': 'features/step_definitions/*_steps.js',
         'support': 'features/support/*.js',
         'format': 'summary',
-        'tags': '~@wip'
+        'tags': ['@gulpcucumber', '~@wip']
     })).once('end', function() {
         console.log('stream end!!');
     });
