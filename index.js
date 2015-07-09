@@ -1,21 +1,27 @@
-var Cucumber = require('cucumber');
-var glob = require('simple-glob');
+var path = require('path');
 var util = require('util');
-var through2 = require('through2');
 
-var cucumber = function(options) {
+var glob = require('simple-glob');
+var through2 = require('through2');
+var Cucumber = require('cucumber');
+
+
+var clearFileCache = function(filePath) {
+    delete require.cache[require.resolve(path.resolve(filePath))];
+}
+
+module.exports = function(options) {
     var files = [];
     var runOptions = [];
 
     if (options.support) {
         files = files.concat(glob([].concat(options.support)));
     }
-
     if (options.steps) {
         files = files.concat(glob([].concat(options.steps)));
     }
-
     files.forEach(function(file) {
+        clearFileCache(file);
         runOptions.push('-r');
         runOptions.push(file);
     });
@@ -24,9 +30,8 @@ var cucumber = function(options) {
     var format = options.format || 'pretty';
     runOptions.push(format);
 
-    var tags;
     if (options.tags) {
-        tags = util.isArray(options.tags) ? options.tags : [options.tags];
+        var tags = util.isArray(options.tags) ? options.tags : [options.tags];
 
         tags.forEach(function(t) {
             runOptions.push('--tags');
@@ -38,7 +43,7 @@ var cucumber = function(options) {
 
     var collect = function(file, enc, callback) {
         var filename = file.path;
-        if (filename.indexOf(".feature") === -1) {
+        if (filename.indexOf('.feature') === -1) {
             return callback();
         }
         features.push(filename);
@@ -57,12 +62,10 @@ var cucumber = function(options) {
                 callback();
                 stream.emit('end');
             } else {
-                callback(new Error("Cucumber tests failed!"));
+                callback(new Error('Cucumber tests failed!'));
             }
         });
     };
 
     return through2.obj(collect, run);
 };
-
-module.exports = cucumber;
