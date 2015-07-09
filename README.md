@@ -5,7 +5,7 @@ Gulp task for running [cucumber.js](https://github.com/cucumber/cucumber-js) fea
 Installation
 ==
 ```sh
-npm install gulp-cucumber
+npm install gulp-cucumber --save-dev
 ```
 
 Using:
@@ -31,6 +31,8 @@ gulp.task('cucumber', function() {
     }));
 });
 ```
+
+**You have to set `options.steps` and `options.support` for preventing caching these files by require.cache**
 
 `options.format` supports cucumbers standard output formats : `summary`, `pretty` (default), `json`, `progress`
 
