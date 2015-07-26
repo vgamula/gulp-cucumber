@@ -1,4 +1,4 @@
-gulp-cucumber  [![Build Status](https://travis-ci.org/vgamula/gulp-cucumber.svg?branch=master)](https://travis-ci.org/vgamula/gulp-cucumber)
+gulp-cucumber  [![Build Status](https://travis-ci.org/vgamula/gulp-cucumber.svg?branch=master)](https://travis-ci.org/vgamula/gulp-cucumber) [![npm version](https://badge.fury.io/js/gulp-cucumber.svg)](http://badge.fury.io/js/gulp-cucumber)
 ==
 Gulp task for running [cucumber.js](https://github.com/cucumber/cucumber-js) features
 
