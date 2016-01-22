@@ -26,9 +26,16 @@ module.exports = function(options) {
         runOptions.push(file);
     });
 
-    runOptions.push('-f');
-    var format = options.format || 'pretty';
-    runOptions.push(format);
+    if (!options.format) {
+        options.format = 'pretty';
+    }
+
+    var formats = util.isArray(options.format) ? options.format : [options.format];
+
+    formats.forEach(function(f) {
+        runOptions.push('--format');
+        runOptions.push(f);
+    });
 
     if (options.tags) {
         var tags = util.isArray(options.tags) ? options.tags : [options.tags];
