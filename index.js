@@ -1,5 +1,4 @@
 var path = require('path');
-var util = require('util');
 
 var glob = require('simple-glob');
 var through2 = require('through2');
@@ -30,7 +29,7 @@ module.exports = function(options) {
         options.format = 'pretty';
     }
 
-    var formats = util.isArray(options.format) ? options.format : [options.format];
+    var formats = Array.isArray(options.format) ? options.format : [options.format];
 
     formats.forEach(function(f) {
         runOptions.push('--format');
@@ -38,7 +37,7 @@ module.exports = function(options) {
     });
 
     if (options.tags) {
-        var tags = util.isArray(options.tags) ? options.tags : [options.tags];
+        var tags = Array.isArray(options.tags) ? options.tags : [options.tags];
 
         tags.forEach(function(t) {
             runOptions.push('--tags');
