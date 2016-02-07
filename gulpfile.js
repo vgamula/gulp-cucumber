@@ -1,8 +1,8 @@
-
 var gulp = require('gulp');
-var cucumber = require('./');
-var spawn = require('child_process').spawn;
 var expect = require('chai').expect;
+var spawn = require('child_process').spawn;
+var cucumber = require('./');
+
 
 gulp.task('cucumber', function() {
     return gulp.src('features/*').pipe(cucumber({
@@ -11,7 +11,7 @@ gulp.task('cucumber', function() {
         'format': 'summary',
         'tags': ['@gulpcucumber', '~@wip']
     })).once('end', function() {
-        console.log('stream end!!');
+        console.log('end');
     });
 });
 
@@ -27,11 +27,11 @@ gulp.task('test', function(callback) {
     p.on('close', function(status) {
         try {
             if (status !== 0) {
-                throw new Error('gulp cucumber exited: ' + status);
+                throw new Error('gulp-cucumber exited: ' + status);
             } else {
                 var text = chunks.join('');
-                expect(text).to.match(/meow!!/);
-                expect(text).to.match(/stream end!!/);
+                expect(text).to.match(/Meow!/);
+                expect(text).to.match(/end/);
             }
             callback();
         } catch (e) {
