@@ -36,6 +36,8 @@ gulp.task('cucumber', function() {
 
 `options.format` supports cucumbers standard output formats : `summary`, `pretty` (default), `json`, `progress`
 
+`options.compiler` supports cucumbers [compiler](https://github.com/cucumber/cucumber-js#transpilers). `<file_extension>:<module_name>`
+
 You can use `options.tags` to specify range of scenarios for test suite, for example:
 
 ```js
