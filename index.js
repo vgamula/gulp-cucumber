@@ -45,10 +45,10 @@ module.exports = function(options) {
         });
     }
 
-	if (options.compiler) {
-		runOptions.push('--compiler');
-		runOptions.push(options.compiler);
-	}
+    if (options.compiler) {
+        runOptions.push('--compiler');
+        runOptions.push(options.compiler);
+    }
 
     var features = [];
 
