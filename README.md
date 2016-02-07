@@ -34,7 +34,7 @@ gulp.task('cucumber', function() {
 
 **You have to set `options.steps` and `options.support` for preventing caching these files by require.cache**
 
-`options.format` supports cucumbers standard output formats : `summary`, `pretty` (default), `json`, `progress`
+`options.format` supports cucumbers standard output formats : `summary`, `pretty` (default), `json`, `progress`. You can use an array for multiple formats.
 
 `options.compiler` supports cucumbers [compiler](https://github.com/cucumber/cucumber-js#transpilers). `<file_extension>:<module_name>`
 

@@ -1,5 +1,4 @@
 var path = require('path');
-var util = require('util');
 
 var glob = require('simple-glob');
 var through2 = require('through2');
@@ -26,12 +25,19 @@ module.exports = function(options) {
         runOptions.push(file);
     });
 
-    runOptions.push('-f');
-    var format = options.format || 'pretty';
-    runOptions.push(format);
+    if (!options.format) {
+        options.format = 'pretty';
+    }
+
+    var formats = Array.isArray(options.format) ? options.format : [options.format];
+
+    formats.forEach(function(f) {
+        runOptions.push('--format');
+        runOptions.push(f);
+    });
 
     if (options.tags) {
-        var tags = util.isArray(options.tags) ? options.tags : [options.tags];
+        var tags = Array.isArray(options.tags) ? options.tags : [options.tags];
 
         tags.forEach(function(t) {
             runOptions.push('--tags');
