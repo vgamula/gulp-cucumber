@@ -39,6 +39,11 @@ module.exports = function(options) {
         });
     }
 
+	if (options.compiler) {
+		runOptions.push('--compiler');
+		runOptions.push(options.compiler);
+	}
+
     var features = [];
 
     var collect = function(file, enc, callback) {
