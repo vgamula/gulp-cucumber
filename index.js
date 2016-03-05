@@ -69,7 +69,6 @@ module.exports = function(options) {
 
         var stream = this;
         Cucumber.Cli(argv).run(function(succeeded) {
-            stream.emit('end');
             if (succeeded) {
                 callback();
             } else {
