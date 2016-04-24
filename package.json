@@ -21,7 +21,7 @@
     "gulp": "^3.8.8"
   },
   "dependencies": {
-    "cucumber": "^0.9",
+    "cucumber": "^0.10.2",
     "simple-glob": "~0.1.0",
     "through2": "^0.6.3"
   }
