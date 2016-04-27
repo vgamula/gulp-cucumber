@@ -18,7 +18,8 @@
   "license": "MIT",
   "devDependencies": {
     "chai": "^1.10.0",
-    "gulp": "^3.8.8"
+    "gulp": "^3.8.8",
+    "run-sequence": "^1.1.5"
   },
   "dependencies": {
     "cucumber": "^0.10.2",
