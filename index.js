@@ -12,6 +12,7 @@ var clearFileCache = function(filePath) {
 module.exports = function(options) {
     var files = [];
     var runOptions = [];
+    var emitErrors = true;
 
     if (options.support) {
         files = files.concat(glob([].concat(options.support)));
@@ -50,6 +51,10 @@ module.exports = function(options) {
         runOptions.push(options.compiler);
     }
 
+    if (options.emitErrors === false) {
+        emitErrors = false;
+    }
+
     var features = [];
 
     var collect = function(file, enc, callback) {
@@ -69,7 +74,7 @@ module.exports = function(options) {
 
         var stream = this;
         Cucumber.Cli(argv).run(function(succeeded) {
-            if (succeeded) {
+            if (succeeded || !emitErrors) {
                 stream.emit("end");
             } else {
                 stream.emit("error", new Error('Cucumber tests failed!'));

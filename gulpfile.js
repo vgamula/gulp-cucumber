@@ -5,7 +5,7 @@ var cucumber = require('./');
 var runSequence = require('run-sequence');
 
 gulp.task('test', function (cb) {
-    runSequence('test:options', 'test:customend', 'test:failure', 'test:customerror', cb);
+    runSequence('test:options', 'test:customend', 'test:failure', 'test:ignorefailure', 'test:customerror', cb);
 });
 
 gulp.task('test:options', function (callback) {
@@ -80,6 +80,44 @@ gulp.task('cucumber:failure', function (done) {
             'support': 'failures/support/*.js',
             'format': ['summary'],
             'tags': ['@gulpcucumber', '~@wip']
+        }));
+});
+
+gulp.task('test:ignorefailure', function (callback) {
+    var p = spawn('gulp', ['cucumber:ignorefailure']);
+    var chunks = [];
+    p.stderr.pipe(process.stderr);
+    p.stdout.pipe(process.stdout);
+    p.stdout.setEncoding('utf8');
+    p.stdout.on('data', function (chunk) {
+        chunks.push(chunk);
+    });
+    p.on('close', function (status) {
+        try {
+            if (status !== 0) {
+                throw new Error('gulp-cucumber exited: ' + status);
+            } else {
+                var text = chunks.join('');
+                expect(text).to.match(/Starting 'cucumber:ignorefailure'.../);
+                expect(text).to.match(/Meow!/);
+                expect(text).to.match(/AssertionError: expected 100 to equal 200/);
+                expect(text).to.match(/Finished 'cucumber:ignorefailure'/);
+            }
+            callback();
+        } catch (e) {
+            callback(e);
+        }
+    });
+});
+
+gulp.task('cucumber:ignorefailure', function (done) {
+    return gulp.src('failures/*')
+        .pipe(cucumber({
+            'steps': 'failures/step_definitions/*_steps.js',
+            'support': 'failures/support/*.js',
+            'format': ['summary'],
+            'tags': ['@gulpcucumber', '~@wip'],
+            'emitErrors': false
         }));
 });
 
