@@ -182,6 +182,8 @@ gulp.task('test:customerror', function (callback) {
                 expect(text).to.match(/AssertionError: expected 100 to equal 200/);
                 expect(text).to.match(/cucumber:customerror error event/);
                 expect(text).to.match(/'cucumber:customerror' errored/);
+                
+                expect(text).to.not.match(/cucumber:customerror end event/);
             }
             callback();
         } catch (e) {
@@ -201,5 +203,9 @@ gulp.task('cucumber:customerror', function (done) {
         .once('error', function (err) {
             console.log('cucumber:customerror error event');
             done(err);
+        })
+        .once('end', function () {
+            console.log('cucumber:customerror end event');
+            done();
         });
 });
