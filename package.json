@@ -22,7 +22,7 @@
     "run-sequence": "^1.1.5"
   },
   "dependencies": {
-    "cucumber": "^1.0.0",
+    "cucumber": "^1.2.1",
     "simple-glob": "~0.1.0",
     "through2": "^0.6.3"
   }
