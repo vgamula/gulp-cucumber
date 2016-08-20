@@ -55,6 +55,12 @@ module.exports = function(options) {
         emitErrors = false;
     }
 
+    if (options.custom) {
+        options.custom.split(' ').forEach(function(c) {
+            runOptions.push(c);
+        });
+    }
+
     var features = [];
 
     var collect = function(file, enc, callback) {
