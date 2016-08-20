@@ -5,7 +5,7 @@ var cucumber = require('./');
 var runSequence = require('run-sequence');
 
 gulp.task('test', function (cb) {
-    runSequence('test:options', 'test:customend', 'test:failure', 'test:ignorefailure', 'test:customerror', cb);
+    runSequence('test:options', 'test:customend', 'test:failure', 'test:ignorefailure', 'test:customerror', 'test:customoption', cb);
 });
 
 gulp.task('test:options', function (callback) {
@@ -208,4 +208,42 @@ gulp.task('cucumber:customerror', function (done) {
             console.log('cucumber:customerror end event');
             done();
         });
+});
+
+gulp.task('test:customoption', function (callback) {
+    var p = spawn('gulp', ['cucumber:customoption']);
+    var chunks = [];
+    p.stderr.pipe(process.stderr);
+    p.stdout.pipe(process.stdout);
+    p.stdout.setEncoding('utf8');
+    p.stdout.on('data', function (chunk) {
+        chunks.push(chunk);
+    });
+    p.on('close', function (status) {
+        try {
+            if (status !== 0) {
+                throw new Error('gulp-cucumber exited: ' + status);
+            } else {
+                var text = chunks.join('');
+                expect(text).to.match(/Starting 'cucumber:customoption'.../);
+                expect(text).to.match(/Meow!/);
+                expect(text).to.match(/cucumber:customoption end event/);
+                expect(text).to.match(/Finished 'cucumber:customoption'/);
+            }
+            callback();
+        } catch (e) {
+            callback(e);
+        }
+    });
+});
+
+gulp.task('cucumber:customoption', function () {
+    return gulp.src('features/*').pipe(cucumber({
+      'steps': 'features/step_definitions/*_steps.js',
+      'support': 'features/support/*.js',
+      'format': ['summary'],
+      'custom': '--tags @gulpcucumber --tags ~@wip'
+    })).once('end', function () {
+        console.log('cucumber:customoption end event');
+    });
 });
