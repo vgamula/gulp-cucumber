@@ -61,6 +61,13 @@ It can be string or array of strings. See more on tags [here](https://github.com
 'emitErrors': false
 ```
 
+---
+
+You can use `options.custom` to set any Cucumber.js [CLI](https://github.com/cucumber/cucumber-js#cli) flags:
+```js
+'custom': '--tags @auth'
+```
+
 Running tests:
 ==
 ```sh
