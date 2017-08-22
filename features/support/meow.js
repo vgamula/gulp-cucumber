@@ -1,5 +1,11 @@
-module.exports = function() {
-    this.World.prototype.meow = function() {
+const { defineSupportCode } = require('cucumber');
+
+class World {
+    meow() {
         console.log('Meow!');
-    };
-};
+    }
+}
+
+defineSupportCode(({ setWorldConstructor }) => {
+    setWorldConstructor(World);
+});
