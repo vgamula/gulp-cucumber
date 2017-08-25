@@ -1,86 +1,81 @@
-var path = require('path');
+const path = require('path');
+const glob = require('glob');
+const through2 = require('through2');
+const cucumber = require('cucumber');
 
-var glob = require('simple-glob');
-var through2 = require('through2');
-var Cucumber = require('cucumber');
-
-
-var clearFileCache = function(filePath) {
+const featureRegExp = /\.feature$/i;
+function clearFileCache(filePath) {
     delete require.cache[require.resolve(path.resolve(filePath))];
 }
-
-module.exports = function(options) {
-    var files = [];
-    var runOptions = [];
-    var emitErrors = true;
-
-    if (options.support) {
-        files = files.concat(glob([].concat(options.support)));
-    }
-    if (options.steps) {
-        files = files.concat(glob([].concat(options.steps)));
-    }
-    files.forEach(function(file) {
-        clearFileCache(file);
-        runOptions.push('-r');
-        runOptions.push(file);
-    });
-
-    if (!options.format) {
-        options.format = 'pretty';
-    }
-
-    var formats = Array.isArray(options.format) ? options.format : [options.format];
-
-    formats.forEach(function(f) {
-        runOptions.push('--format');
-        runOptions.push(f);
-    });
-
-    if (options.tags) {
-        var tags = Array.isArray(options.tags) ? options.tags : [options.tags];
-
-        tags.forEach(function(t) {
-            runOptions.push('--tags');
-            runOptions.push(t);
+function getFiles(patterns) {
+    const output = new Set();
+    [].concat(patterns).forEach((p) => {
+        glob.sync(p).forEach((f) => {
+            output.add(f);
         });
-    }
+    });
+    return [...output];
+}
 
-    if (options.compiler) {
+module.exports = function ({
+    files = [],
+    runOptions = [],
+    emitErrors = true,
+    support = [],
+    steps = [],
+    format,
+    tags,
+    compiler,
+} = {}) {
+
+    [].concat(files)
+        .concat(getFiles(support))
+        .concat(getFiles(steps))
+        .forEach((file) => {
+            clearFileCache(file);
+            runOptions.push('-r');
+            runOptions.push(file);
+        });
+
+    if (format) {
+        [].concat(format)
+            .forEach((f) => {
+                runOptions.push('--format');
+                runOptions.push(f);
+            });
+    }
+    if (tags) {
+        runOptions.push('--tags');
+        runOptions.push(tags);
+    }
+    if (compiler) {
         runOptions.push('--compiler');
-        runOptions.push(options.compiler);
+        runOptions.push(compiler);
     }
+    const features = [];
 
-    if (options.emitErrors === false) {
-        emitErrors = false;
-    }
-
-    var features = [];
-
-    var collect = function(file, enc, callback) {
-        var filename = file.path;
-        if (filename.indexOf('.feature') === -1) {
-            return callback();
+    function collect(file, enc, cb) {
+        const filename = file.path;
+        if (featureRegExp.test(filename)) {
+            features.push(filename);
         }
-        features.push(filename);
-        callback();
-    };
+        cb();
+    }
+    function run() {
+        const cli = new cucumber.Cli({
+            argv: ['node', 'cucumber-js'].concat(runOptions).concat(features),
+            cwd: process.cwd(),
+            stdout: process.stdout,
+        });
 
-    var run = function() {
-        var argv = ['node', 'cucumber-js'];
-
-        argv.push.apply(argv, runOptions);
-        argv.push.apply(argv, features);
-
-        var stream = this;
-        Cucumber.Cli(argv).run(function(succeeded) {
-            if (succeeded || !emitErrors) {
-                stream.emit("end");
+        cli.run().then((success) => {
+            if (success || !emitErrors) {
+                this.emit('end');
             } else {
-                stream.emit("error", new Error('Cucumber tests failed!'));
+                this.emit('error', new Error('Cucumber tests failed!'));
             }
         });
-    };
+    }
 
     return through2.obj(collect, run);
-};
+}
