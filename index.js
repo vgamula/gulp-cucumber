@@ -4,9 +4,11 @@ const through2 = require('through2');
 const cucumber = require('cucumber');
 
 const featureRegExp = /\.feature$/i;
+
 function clearFileCache(filePath) {
     delete require.cache[require.resolve(path.resolve(filePath))];
 }
+
 function getFiles(patterns) {
     const output = new Set();
     [].concat(patterns).forEach((p) => {
@@ -52,6 +54,7 @@ module.exports = function ({
         runOptions.push('--compiler');
         runOptions.push(compiler);
     }
+
     const features = [];
 
     function collect(file, enc, cb) {
@@ -78,4 +81,4 @@ module.exports = function ({
     }
 
     return through2.obj(collect, run);
-}
+};
