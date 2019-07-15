@@ -17,18 +17,17 @@
   "author": "Volodymyr Gamula <v.gamula@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "chai": "^4.1.1",
+    "chai": "^4.2.0",
     "execa": "^0.8.0",
-    "gulp": "^3.8.8",
-    "gulp-istanbul": "^1.1.2",
-    "run-sequence": "^2.1.0",
-    "cucumber": "^3.0.0"
+    "gulp": "^4.0.2",
+    "gulp-istanbul": "^1.1.3",
+    "cucumber": "^5.1.0"
   },
   "peerDependencies": {
-    "cucumber": "^3.0.0"
+    "cucumber": "^5.1.0"
   },
   "dependencies": {
-    "glob": "^7.1.2",
-    "through2": "^2.0.3"
+    "glob": "^7.1.4",
+    "through2": "^3.0.1"
   }
 }

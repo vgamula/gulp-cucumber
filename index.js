@@ -71,7 +71,7 @@ module.exports = function ({
             stdout: process.stdout,
         });
 
-        cli.run().then((success) => {
+        cli.run().then(({ success }) => {
             if (success || !emitErrors) {
                 this.emit('end');
             } else {
