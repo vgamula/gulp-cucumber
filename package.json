@@ -1,6 +1,6 @@
 {
   "name": "gulp-cucumber",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "Gulp task for running cucumber.js features",
   "repository": {
     "type": "git",
@@ -18,11 +18,10 @@
   "license": "MIT",
   "devDependencies": {
     "chai": "^4.1.1",
+    "cucumber": "^3.0.0",
     "execa": "^0.8.0",
     "gulp": "^3.8.8",
-    "gulp-istanbul": "^1.1.2",
-    "run-sequence": "^2.1.0",
-    "cucumber": "^3.0.0"
+    "run-sequence": "^2.1.0"
   },
   "peerDependencies": {
     "cucumber": "^3.0.0"
