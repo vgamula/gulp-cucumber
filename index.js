@@ -71,7 +71,8 @@ module.exports = function ({
             stdout: process.stdout,
         });
 
-        cli.run().then((success) => {
+        cli.run().then((result) => {
+            const success = typeof(result) === 'object' ? result.success : result
             if (success || !emitErrors) {
                 this.emit('end');
             } else {
