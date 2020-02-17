@@ -72,7 +72,7 @@ module.exports = function ({
         });
 
         cli.run().then((result) => {
-            const success = typeof(isSucceresultssNew) === 'object' ? result.success : result
+            const success = typeof(result) === 'object' ? result.success : result
             if (success || !emitErrors) {
                 this.emit('end');
             } else {
