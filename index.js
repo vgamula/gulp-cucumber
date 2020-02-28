@@ -28,6 +28,7 @@ module.exports = function ({
     format,
     tags,
     compiler,
+    worldParameters,
 } = {}) {
 
     [].concat(files)
@@ -53,6 +54,10 @@ module.exports = function ({
     if (compiler) {
         runOptions.push('--compiler');
         runOptions.push(compiler);
+    }
+    if (worldParameters) {
+        runOptions.push('--world-parameters');
+        runOptions.push(JSON.stringify(worldParameters));
     }
 
     const features = [];
